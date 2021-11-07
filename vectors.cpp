@@ -4,8 +4,8 @@ using namespace std;
 
 struct Point {
     double x, y;
-	
-	Point() : x(0), y(0) {}
+
+    Point() : x(0), y(0) {}
     Point(double x, double y) : x(x), y(y) {}
 };
 
@@ -20,27 +20,30 @@ public:
 
     // this function should return the sum of the current vector and another "other" as a new Vector
     Vector sum(const Vector& other) const {
-        return Vector(0, 0);
+        return Vector(this->x + other.x, this->y + other.y);
     }
 
     // this function should return the difference of the current vector and another "other" as a new Vector
     Vector difference(const Vector& other) const {
-        return Vector(0, 0);
+        return Vector(this->x - other.x, this->y - other.y);
     }
 
     // this function should return a boolean value, answering the question whether the current vector and another "other" are collinear
     bool is_colinear(const Vector& other) const {
-        return false;
+        return this->x / other.x == this->y / other.y;
     }
 
     // this function should return the length of the current vector
     double length() const {
-        return 0;
+        return sqrt(this->x * this->x + this->y * this->y);
     }
 
     // this function should return the angle between the current vector and another "other"
     double angle(const Vector& other) const {
-        return 0;
+        double vectMulti = this->x * other.x + this->y * other.y;
+        double vecSqr = this->length() *
+            other.length();
+        return vectMulti / vecSqr;
     }
 
     // this is for printing the vector
@@ -52,7 +55,7 @@ public:
 
 // this function should find the area of the triangle made up of the three points p1, p2, p3
 double area(const Point& p1, const Point& p2, const Point& p3) {
-    return 0;
+    return (p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)) / 2;
 }
 
 // this function should find the area of the figure made up of up to 50 points
@@ -73,17 +76,17 @@ int main() {
     cin >> input;
 
     switch (input) {
-        case 'v':
-            vectors();
-            break;
-        case 't': 
-            triangleArea();
-            break;
-        case 's': 
-            area();
-            break;
-        default:
-            cout << "Invalid input" << endl;
+    case 'v':
+        vectors();
+        break;
+    case 't':
+        triangleArea();
+        break;
+    case 's':
+        area();
+        break;
+    default:
+        cout << "Invalid input" << endl;
     }
 
     return 0;
@@ -92,7 +95,7 @@ int main() {
 void vectors() {
     Vector v1, v2;
     cin >> v1 >> v2;
-	
+
     cout << v1 << " + " << v2 << " = " << v1.sum(v2) << endl;
     cout << v1 << " - " << v2 << " = " << v1.difference(v2) << endl;
     cout << "Colinear: " << v1.is_colinear(v2) << endl;
@@ -103,15 +106,15 @@ void vectors() {
 void triangleArea() {
     Point p1, p2, p3;
     cin >> p1 >> p2 >> p3;
-	
+
     cout << "Area triangle: " << area(p1, p2, p3) << endl;
 }
 
 void area() {
     int size;
     cin >> size;
-	
-    Point *points = new Point[size];
+
+    Point* points = new Point[size];
     for (int i = 0; i < size; i++) {
         cin >> points[i];
     }
@@ -130,7 +133,7 @@ ostream& operator<<(ostream& out, const Vector& v) {
 istream& operator>>(istream& in, Vector& v) {
     in >> v.x;
     in >> v.y;
-	
+
     return in;
 }
 
@@ -138,6 +141,6 @@ istream& operator>>(istream& in, Vector& v) {
 istream& operator>>(istream& in, Point& p) {
     in >> p.x;
     in >> p.y;
-	
+
     return in;
 }
